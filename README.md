@@ -8,7 +8,7 @@ Aether is a premium, high-performance personal assistant web application designe
 
 You can access the live application here:
 
-*   **Frontend UI (Vercel)**: [Live Website Link](https://aether-ai.vercel.app)
+*   **Frontend UI (Vercel)**: [Live Website Link](https://aether-ai-aplha.vercel.app/)
 *   **Backend API (Render)**: [Live API Link](https://aether-api.onrender.com)
 
 *Note: Please update these links to match your custom domains if applicable.*
