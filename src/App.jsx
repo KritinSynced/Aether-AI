@@ -26,6 +26,8 @@ import {
   Calculator
 } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 export default function App() {
   // Theme State
   const [darkMode, setDarkMode] = useState(true);
@@ -105,7 +107,7 @@ export default function App() {
   // State Fetching from Express Server
   const fetchState = async () => {
     try {
-      const res = await fetch('/api/state');
+      const res = await fetch(`${API_BASE}/api/state`);
       if (res.ok) {
         const data = await res.json();
         setCalendarEvents(data.calendarEvents || []);
@@ -120,7 +122,7 @@ export default function App() {
   const handleResetState = async () => {
     if (window.confirm('Are you sure you want to reset all your data back to default demo items?')) {
       try {
-        const res = await fetch('/api/state/reset', { method: 'POST' });
+        const res = await fetch(`${API_BASE}/api/state/reset`, { method: 'POST' });
         if (res.ok) {
           const data = await res.json();
           setCalendarEvents(data.state.calendarEvents);
@@ -166,7 +168,7 @@ export default function App() {
     apiHistory.push({ role: 'user', content: userMessageText });
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -222,7 +224,7 @@ export default function App() {
   // Tasks manual endpoints
   const handleToggleTask = async (task) => {
     try {
-      const res = await fetch(`/api/tasks/${task.id}`, {
+      const res = await fetch(`${API_BASE}/api/tasks/${task.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completed: !task.completed })
@@ -241,7 +243,7 @@ export default function App() {
     if (!newTask.title.trim()) return;
 
     try {
-      const res = await fetch('/api/tasks', {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask)
@@ -259,7 +261,7 @@ export default function App() {
 
   const handleManualDeleteTask = async (id) => {
     try {
-      const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/tasks/${id}`, { method: 'DELETE' });
       if (res.ok) {
         const data = await res.json();
         setTasks(data.state.tasks);
@@ -275,7 +277,7 @@ export default function App() {
     if (!newEvent.title.trim() || !newEvent.start_time || !newEvent.end_time) return;
 
     try {
-      const res = await fetch('/api/calendar', {
+      const res = await fetch(`${API_BASE}/api/calendar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newEvent)
@@ -293,7 +295,7 @@ export default function App() {
 
   const handleManualDeleteEvent = async (id) => {
     try {
-      const res = await fetch(`/api/calendar/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/calendar/${id}`, { method: 'DELETE' });
       if (res.ok) {
         const data = await res.json();
         setCalendarEvents(data.state.calendarEvents);
@@ -309,7 +311,7 @@ export default function App() {
     if (!newNote.title.trim() || !newNote.content.trim()) return;
 
     try {
-      const res = await fetch('/api/notes', {
+      const res = await fetch(`${API_BASE}/api/notes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newNote)
@@ -327,7 +329,7 @@ export default function App() {
 
   const handleManualDeleteNote = async (id) => {
     try {
-      const res = await fetch(`/api/notes/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/notes/${id}`, { method: 'DELETE' });
       if (res.ok) {
         const data = await res.json();
         setNotes(data.state.notes);
